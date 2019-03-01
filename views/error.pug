@@ -1,0 +1,8 @@
+extends layout.pug
+
+block title
+    title #{error.message || "Error"}
+
+block content
+    h1 #{error.message || "Error"}
+    p #{error.text || error.message}

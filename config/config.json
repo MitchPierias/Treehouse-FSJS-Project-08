@@ -1,0 +1,23 @@
+{
+  "development": {
+    "storage":"library.db",
+    "dialect": "sqlite",
+    "operatorsAliases": false,
+    "logging": false,
+    "freezeTableName": true
+  },
+  "test": {
+    "storage":"test.db",
+    "dialect": "sqlite",
+    "operatorsAliases": false,
+    "logging": false,
+    "freezeTableName": true
+  },
+  "production": {
+    "storage":"production.db",
+    "dialect": "sqlite",
+    "operatorsAliases": false,
+    "logging": false,
+    "freezeTableName": true
+  }
+}
