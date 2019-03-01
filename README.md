@@ -6,31 +6,37 @@
     - `.gitignore` correctly Setup
     - `npm install` and `npm start` execute properly
 * Books Table
-    | Key    | Type    | Required |
-    |--------|---------|----------|
-    | title  | string  | true     |
-    | author | string  | true     |
-    | genre  | string  | false    |
-    | year   | integer | false    |
+
+| Key    | Type    | Required |
+|--------|---------|----------|
+| title  | string  | true     |
+| author | string  | true     |
+| genre  | string  | false    |
+| year   | integer | false    |
+
 * Routes
-    | Path              | Method |
-    |-------------------|--------|
-    | /                 | get    |
-    | /books            | get    |
-    | /books/new        | get    |
-    | /books/new        | post   |
-    | /books/:id        | get    |
-    | /books/:id        | post   |
-    | /books/:id/delete | post   |
+
+| Path              | Method |
+|-------------------|--------|
+| /                 | get    |
+| /books            | get    |
+| /books/new        | get    |
+| /books/new        | post   |
+| /books/:id        | get    |
+| /books/:id        | post   |
+| /books/:id/delete | post   |
+
 * Views
-    | View               |
-    |--------------------|
-    | layout.pug         |
-    | index.pug          |
-    | new-book.pug       |
-    | update-book.pug    |
-    | error.pug          |
-    | page-not-found.pug |
+
+| View               |
+|--------------------|
+| layout.pug         |
+| index.pug          |
+| new-book.pug       |
+| update-book.pug    |
+| error.pug          |
+| page-not-found.pug |
+
 * Book search
     - Add search functionality to the main booklist
     - Search `title`, `author`, `genre`, `year` fields
