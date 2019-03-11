@@ -2,12 +2,15 @@
 const route = require('express').Router();
 const Joi = require('joi');
 const Book = require('../models').Book;
+const Sequelize = require('sequelize');
 // Validators
 const IS_VALID_ID = Joi.number().required().min(1).label("ID");
 const IS_VALID_TITLE = Joi.string().required().min(1).label("Title");
 const IS_VALID_AUTHOR = Joi.string().required().min(2).label("Author");
 const IS_VALID_GENRE = Joi.string().required().min(1).label("Genre");
 const IS_VALID_YEAR = Joi.number().required().positive().integer().label("Year");
+// Constants
+const MAX_RESULTS = 5;
 
 /**
  * All Books
@@ -15,10 +18,21 @@ const IS_VALID_YEAR = Joi.number().required().positive().integer().label("Year")
  * @note Doesn't include pagination
  */
 route.get('/', (req, res, next) => {
+    // Pagination
+    let page = Number(req.query.page) || 1;
+    let args = { offset:(MAX_RESULTS*(page-1)), limit:MAX_RESULTS }
+    // Handle search queries
+    if (req.query['query']) {
+        args.where = Sequelize.literal('title LIKE :title')
+        args.replacements = { title:`%${req.query.query}%` }
+    }
     // Retreive all book entries
-    Book.findAll().then(books => {
-        res.render('index', { books })
-    }).catch(next);
+    Book.findAll(args).then(books => {
+        res.render('index', { books, page, baseUrl:req.baseUrl, params:req.query });
+    }).catch(err => {
+        console.log(err)
+        next({ status:500, message:"Failed to find all books" })
+    });
 });
 
 /**
@@ -42,7 +56,7 @@ route.post('/new', (req, res, next) => {
     Book.create({ title, author, genre, year }).then(book => {
         // Successfully created
         res.redirect('/books');
-    }).catch(next);
+    }).catch(err => next({ status:500, message:"Failed to create new book" }));
 });
 
 /**
@@ -54,11 +68,11 @@ route.get('/:id', (req, res, next) => {
     const { id } = req.params;
     Joi.assert(id, IS_VALID_ID);
     // Find and return book at ID
-    Book.findById(id).then(book => {
+    Book.findByPk(id).then(book => {
         // Handle query response object
-        if (!book && 'object' !== typeof book) return next(`Book '${id}' not found`);
+        if (!book) return next({ status:404, message:`Book '${id}' not found` });
         res.render('update-book', { book });
-    }).catch(next);
+    }).catch(err => next({ status:500, message:"Failed to find book" }));
 });
 
 /**
@@ -78,12 +92,12 @@ route.post('/:id', (req, res, next) => {
     // Find the requested book
     Book.findById(id).then(book => {
         // Update the book
+        if (!book && 'object' !== typeof book) return next({ status:404,message:`Book '${id}' not found`} );
         book.update({ title, author, genre, year })
     }).then(book => {
         // Redirct back home
         res.redirect('/books');
-    }).catch(next);
-    
+    }).catch(err => next({ status:500, message:"Failed to update book" }));
 });
 
 /**
@@ -95,10 +109,14 @@ route.post('/:id/delete', (req, res, next) => {
     const { id } = req.params;
     Joi.assert(id, IS_VALID_ID);
     // Find a remove book entry
-    Book.findById(id).then(book => book.destroy()).then(() => {
+    Book.findById(id).then(book => {
+        // Handle the book query
+        if (!book && 'object' !== typeof book) return next({ status:404,message:`Book '${id}' not found`} );
+        book.destroy();
+    }).then(() => {
         // Book successfully deleted
         res.redirect('/books');
-    }).catch(next);
+    }).catch(err => next({ status:500, message:"Failed to delete book" }));
 });
 
 module.exports = route;

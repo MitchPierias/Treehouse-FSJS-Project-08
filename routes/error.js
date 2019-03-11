@@ -5,9 +5,12 @@
  * @param {Object} req Connect Request object
  * @param {Object} res Connect Response object
  */
-const ErrorHandler = (error, req, res) => {
+const ErrorHandler = (error, req, res, next) => {
+    // Set headers
     res.status(error.status||500)
-    if ('string' === typeof error) error = {message:err};
+    // Manage erorr payload
+    if ('string' === typeof error) error = { message:error };
+    if (500 === res.status) error.message = "Internal Server Error";
     // Render the error view
     res.render('error', { error });
 }

@@ -5,13 +5,13 @@ block title
 
 block content
     h1 New Book
-    form(method="POST" action="/books/new")
+    form(id="new-book" method="POST" action="/books/new" onsubmit="hasValues(['title','author'])(this)")
         p
             label(for="title") Title
-            input(name="title" type="text" id="title")
+            input(name="title" type="text" id="title" onkeyup="hasValue('string')(this)")
         p
             label(for="author") Author
-            input(name="author" type="text" id="author")
+            input(name="author" type="text" id="author" onkeyup="hasValue('string')(this)")
         p
             label(for="genre") Genre
             input(name="genre" type="text" id="genre")
@@ -22,3 +22,4 @@ block content
             input(type="submit" value="Create New Book")
         p
             a(class="button" href="/books") Cancel
+    script(src="/js/validate.js")
