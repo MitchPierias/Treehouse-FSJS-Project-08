@@ -23,8 +23,8 @@ route.get('/', (req, res, next) => {
     let args = { offset:(MAX_RESULTS*(page-1)), limit:MAX_RESULTS }
     // Handle search queries
     if (req.query['query']) {
-        args.where = Sequelize.literal('title LIKE :title')
-        args.replacements = { title:`%${req.query.query}%` }
+        args.where = Sequelize.literal('title LIKE :query OR author LIKE :query OR genre LIKE :query OR year LIKE :query')
+        args.replacements = { query:`%${req.query.query}%` }
     }
     // Retreive all book entries
     Book.findAll(args).then(books => {
