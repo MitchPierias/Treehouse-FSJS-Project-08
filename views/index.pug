@@ -18,7 +18,7 @@ block content
             a(class="button small" href=(baseUrl+'?'+Object.keys(params).map(key => (key+'='+params[key])).join('&').replace(/page=\d/gi,`page=${(page+1)}`))) Next
         if (books.length <= 0)
             h2 Oops...
-            p Looks like there's no more books to dispaly
+            p Looks like there's no more books to display
             a(class="button small" href="/books") Return
         else
             table
