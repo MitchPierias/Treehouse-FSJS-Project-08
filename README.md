@@ -1,4 +1,4 @@
-# ![Treehouse](https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=imgres&cd=&ved=2ahUKEwiUk9aLhOPgAhWzgUsFHYUZA_QQjRx6BAgBEAU&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F481322278907494613%2F&psig=AOvVaw1RBcGB40bs9YNxuCIZqRDO&ust=1551601482702191) Fullstack Javascript Tech Degree
+# <img src="https://i.ibb.co/6FWgBTN/logo.jpg" height="36" alt="Treehouse Logo"> Fullstack Javascript Tech Degree
 ## Project 8 - SQL Library Manager
 
 ### Usage
